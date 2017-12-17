@@ -64,7 +64,7 @@ def prog():
     with open('input.txt') as f:
         for line in f:
             moves = list( line.strip().split(',') )
-    for i in range( 1000000000 ):
+    for i in range( 100 ):
         for move in moves:
             new_positions = handle_input( new_positions, move )
     return new_positions
