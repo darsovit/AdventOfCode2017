@@ -29,24 +29,33 @@ def get_pos( buffer, pos ):
 #print( state['buffer'] )
 posOf2017 = find_pos( state['buffer'], 2017 )
 print( 'next after 2017:', state['buffer'][get_pos(state['buffer'], posOf2017+1)] )
+assert( state['pos'] == posOf2017 )
+
+# 932 is not correct
 
 i = 2017
+finalSteps=50000000
 state['buflen'] = len( state['buffer'] )
 state['afterzero'] = state['buffer'][1]
-while i < 50000000:
-    while state['cStep'] > ( state['buflen'] - state['pos'] ):
+print('afterzero(',i,'):', state['afterzero'] )
+#exit()
+print('initial reduced state, buflen:', state['buflen'], ', pos:', state['pos'] )
+while i < finalSteps:
+    while i < finalSteps and ( state['cStep'] < ( state['buflen'] - state['pos'] ) ):
         state['buflen'] += 1
         state['pos'] += state['cStep'] + 1
         i += 1
-    if state['pos'] + state['cStep'] % state['buflen'] == 0:
+#    print( "looping around with i:", i )
+    if ( state['pos'] + state['cStep'] ) % state['buflen'] == 0:
         state['afterzero'] = i+1
         i += 1
         state['buflen'] += 1
         state['pos'] = 1
         print('added after zero:', state['afterzero'] )
     else:
+        state['pos'] = ( ( state['pos'] + state['cStep'] ) % state['buflen'] ) + 1
         state['buflen'] += 1
-        state['pos'] = ( state['pos'] + state['cStep'] % state['buflen'] ) + 1
         i += 1
+#        print('buflen:', state['buflen'], ", pos:", state['pos'] )
     
 print( state['afterzero'] )
