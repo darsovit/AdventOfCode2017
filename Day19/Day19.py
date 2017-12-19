@@ -4,7 +4,7 @@ maze_lines=[]
 
 with open('input.txt') as f:
     for line in f:
-        maze_lines.append(list(line.strip('\n')))
+        maze_lines.append(list(line.strip('\r\n')))
 
 
 def find_start( maze_lines ):
@@ -44,25 +44,46 @@ def walk_direction( maze_lines, pos, letters ):
         letters.append( underfoot )
     return new_pos
 
-#def can_turn_left( maze_lines, pos ):
-#def can_turn_right( maze_lines, pos ):
-#def turn_left( maze_lines, pos, letters ):
-#def turn_right( maze_lines, pos, letters ):
+def left_turn( direction ):
+    if direction == 's':
+        return 'e'
+    elif direction == 'n':
+        return 'w'
+    elif direction == 'w':
+        return 's'
+    elif direction == 'e':
+        return 'n'
+
+def right_turn( direction ):
+    return left_turn( left_turn( left_turn( direction ) ) )
+    
+def can_turn_left( maze_lines, pos ):
+    return can_walk_direction( maze_lines, ( pos[0], pos[1], left_turn( pos[2] ) ) )
+
+def can_turn_right( maze_lines, pos ):
+    return can_walk_direction( maze_lines, ( pos[0], pos[1], right_turn( pos[2] ) ) )
+
+def walk_turn_left( maze_lines, pos, letters ):
+    return walk_direction( maze_lines, ( pos[0], pos[1], left_turn( pos[2] ) ), letters )
+
+def walk_turn_right( maze_lines, pos, letters ):
+    return walk_direction( maze_lines, ( pos[0], pos[1], right_turn( pos[2] ) ), letters )
 
 def walk_path( maze_lines, pos, letters ):
     if can_walk_direction( maze_lines, pos ):
         return walk_direction( maze_lines, pos, letters )
     elif can_turn_left( maze_lines, pos ):
-        return turn_left( maze_lines, pos, letters )
+        return walk_turn_left( maze_lines, pos, letters )
     elif can_turn_right( maze_lines, pos ):
-        return turn_right( maze_lines, pos, letters )
+        return walk_turn_right( maze_lines, pos, letters )
     else:
         return None
         
 pos=find_start( maze_lines )
 letters=[]
-
+steps=0
 while pos != None:
+    steps += 1 
     pos = walk_path( maze_lines, pos, letters )
 
-
+print( ''.join( letters ), ", steps=", steps )
