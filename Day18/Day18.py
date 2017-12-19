@@ -7,36 +7,36 @@ def get_value( state, val ):
         return int( val )
 
 def snd( state, tuple ):
-    state['last_freq'] = get_value( state, tuple[0] )
-    state['pc'] += 1
+    state['reg']['snd'] = get_value( state, tuple[0] )
+    state['reg']['pc'] += 1
 
 def set_reg( state, tuple ):
     state['reg'][tuple[0]] = get_value( state, tuple[1] )
-    state['pc'] += 1
+    state['reg']['pc'] += 1
 
 def add_reg( state, tuple ):
     state['reg'][tuple[0]] = get_value( state, tuple[0] ) + get_value( state, tuple[1] )
-    state['pc'] += 1
+    state['reg']['pc'] += 1
 
 def mul_reg( state, tuple ):
     state['reg'][tuple[0]] = get_value( state, tuple[0] ) * get_value( state, tuple[1] )
-    state['pc'] += 1
+    state['reg']['pc'] += 1
 
 def mod_reg( state, tuple ):
     state['reg'][tuple[0]] = get_value( state, tuple[0] ) % get_value( state, tuple[1] )
-    state['pc'] += 1
+    state['reg']['pc'] += 1
 
 def rcv( state, tuple ):
     if get_value( state, tuple[0] ) != 0:
-        print("Recovered:", get_value( state, tuple[0] ) )
+        print("Recovered:", state['reg']['snd'] )
         exit()
-    state['pc'] += 1
+    state['reg']['pc'] += 1
 
 def jgz( state, tuple ):
     if ( get_value( state, tuple[0] ) > 0 ):
-        state['pc'] += get_value( state, tuple[1] )
+        state['reg']['pc'] += get_value( state, tuple[1] )
     else:
-        state['pc'] += 1
+        state['reg']['pc'] += 1
 
 def parse_instruction( state, line ):
     instr = line.split()
@@ -66,8 +66,8 @@ def parse_instruction( state, line ):
         assert False and instr[0]
 
 def getcmd( state ):
-    if state['pc'] >= 0 and state['pc'] < len( state['prog'] ):
-        return state['prog'][state['pc']]
+    if state['reg']['pc'] >= 0 and state['reg']['pc'] < len( state['prog'] ):
+        return state['prog'][state['reg']['pc']]
     return None
 
 def run_prog( state ):
@@ -81,8 +81,8 @@ def run_prog( state ):
     
 state={}
 state['reg']={}
-state['last_freq']=0
-state['pc']=0
+state['reg']['snd']=0
+state['reg']['pc']=0
 state['prog']=[]
 
 with open('input.txt') as f:
