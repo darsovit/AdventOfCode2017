@@ -139,11 +139,13 @@ with open('input.txt') as file:
 
 image='.#./..#/###'.split('/')
 #image='../.#'.split('/')
-for i in range( 5 ):
+puzzle1=5
+puzzle2=18
+for i in range( puzzle2 ):
     pieces = break_into_convertables( image )
     image=build_new_image( pieces, converter )
-    print( i )
-    draw_pattern(image)
+    #print( i )
+    #draw_pattern(image)
 print( count_lit_squares(image) )
 
 
