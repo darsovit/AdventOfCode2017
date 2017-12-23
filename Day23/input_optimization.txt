@@ -1,0 +1,86 @@
+b = 81
+c = b
+if ( a != 0 )  // jnz a 2
+{
+    b = b * 100
+    b = b + 100000
+    c = b + 17000
+}
+// Generally b = c before enter of loop, for exit at 34
+// in test mode this is not the case, it will loop 1000 times,
+// and a test condition will be drastically different
+// b = 108100
+// c = 
+
+while ( 1 != 0 ) // jnz 1 -23
+{
+    f = 1
+    d = 2
+    do {  // jnz g -13
+        e = 2
+        do {  // jnz g -8
+            if ( ( d * e ) == b ) {  // jnz g 2
+               f = 0
+            }
+            e++
+        } while ( e != b )  // jnz g -8
+
+        d++
+
+    } while ( d != b ) // jnz g -13
+
+    if ( f == 0 )  // jnz f 2
+    {
+        h++
+    }
+
+    if ( b == c ) {  // jnz g 2
+        break; // jnz 1 3
+    }
+    b += 17
+} // if ( 1 != 0 ) goto br2
+
+br8:
+
+// answer for h is not 1000, it suggests that is too high
+--
+
+
+        b = 81                  // set b 81
+        c = b                   // set c b
+        if ( a != 0 ) goto br1  // jnz a 2
+        if ( 1 != 0 ) goto br2  // jnz 1 5
+br1:
+        b = b * 100             // mul b 100
+        b = b - (-100000)       // sub b -100000
+        c = b                   // set c b
+        c = c - (-17000)        // sub c -17000
+br2:
+        f = 1                   // set f 1
+        d = 2                   // set d 2
+br5:
+        e = 2                   // set e 2
+br4:        
+        g = d                   // set g d
+        g = g * e               // mul g e
+        g = g - b               // sub g b
+        if ( g != 0 ) goto br3  // jnz g 2
+        f = 0                   // set f 0
+br3:
+        e = e - (-1)            // sub e -1
+        g = e                   // set g e
+        g = g - b               // sub g b
+        if ( g != 0 ) goto br4  // jnz g -8
+        d = d - (-1)            // sub d -1
+        g = d                   // set g d
+        g = g - b               // sub g b
+        if ( g != 0 ) goto br5  // jnz g -13
+        if ( f != 0 ) goto br6  // jnz f 2
+        h = h - (-1)            // sub h -1
+br6:
+        g = b                   // set g b
+        g = g - c               // sub g c
+        jnz g 2
+        jnz 1 3
+        b = b - (-17)           // sub b -17
+        jnz 1 -23
