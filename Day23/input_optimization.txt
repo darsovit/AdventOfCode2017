@@ -80,7 +80,9 @@ br3:
 br6:
         g = b                   // set g b
         g = g - c               // sub g c
-        jnz g 2
-        jnz 1 3
+        if ( g != 0 ) goto br7  // jnz g 2
+        if ( 1 != 0 ) goto br8  // jnz 1 3
+br7:
         b = b - (-17)           // sub b -17
-        jnz 1 -23
+        if ( 1 != 0 ) goto br2  // jnz 1 -23
+br8:
